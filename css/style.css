@@ -423,8 +423,7 @@ footer{
 
 .custom-alert button {
     margin-top: 1rem;
-    background: var(--pink);
-    box-shadow: var(--box-shadow);
+    background-color: var(--white);
     color: white;
     padding: 0.5rem 1rem;
     border: none;
@@ -434,7 +433,8 @@ footer{
 }
 
 .custom-alert button:hover{
-    color: var(--pink)
+    color: var(--pink);
+    box-shadow: var(--box-shadow);
 }
 
   

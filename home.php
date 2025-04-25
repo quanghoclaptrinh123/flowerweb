@@ -164,7 +164,7 @@
             </div>
         </section>
         <div id="custom-alert" class="custom-alert" style="display: none;">
-            <span id="custom-alert-message"></span>
+            <div><span id="custom-alert-message"></span></div>
             <button onclick="hideCustomAlert()">OK</button>
         </div>
 

@@ -1047,7 +1047,6 @@ section{
 }
 
 @media (max-width:768px){
-
    #menu-btn{
       display: inline-block;
    }
@@ -1104,5 +1103,4 @@ section{
    .title{
       font-size: 3rem;
    }
-
 }

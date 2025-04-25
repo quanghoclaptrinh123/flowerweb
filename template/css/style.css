@@ -985,10 +985,6 @@ section{
 .placed-orders .box-container .box p span{
    color:var(--pink);
 }
-
-
-
-
 .footer{
    background-color: var(--white);
 }
@@ -1040,16 +1036,6 @@ section{
 .footer .credit span{
    color:var(--pink);
 }
-
-
-
-
-
-
-
-
-
-
 /* media queries  */
 
 @media (max-width:991px){

@@ -22,6 +22,9 @@
         if(!$email) {
             $message[] = "Invalid email format!";
         }
+        if(strlen($pass) < 8 || !preg_match('/[A-Za-z]/', $pass) || !preg_match('/[0-9]/', $pass) || !preg_match('/[^A-Za-z0-9]/', $pass) ){
+            $message[] = "Password must be at least 8 characters and include letters, numbers and at least 1 special character";
+        }
         if($pass !==  $cpass) {
             $message[] = "Passwords do not match!";
         }
@@ -30,42 +33,52 @@
         $hash_pass = password_hash($pass, PASSWORD_DEFAULT);
 
         //prevent SQL injection by parameterlize the data - take information from the database 
-        $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
+        $stmt = $conn->prepare("SELECT email, name FROM users WHERE email = ? AND name = ?");
         if(!$stmt){
             die("SQL error: ". $conn->error);
         }
 
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("ss", $email, $name);
         $stmt->execute();
-        $stmt->store_result();
+        $result = $stmt->get_result();
 
-        if($stmt->num_rows > 0) {
-            $message[]= "User already exists!";
+        $email_existed = false;
+        $name_existed = false;
+
+        while($row = $result->fetch_assoc()) { 
+            if($row['email'] === $email) $email_existed = true;
+            if($row['name'] === $name) $name_existed = true;
         }
         $stmt->close();
 
+        if($email_existed && $name_existed) {
+            $message[] = "Email and name already exist";
+        }
+        elseif($email_existed){
+            $message[] = "Email already exists";
+        }
+        elseif($name_existed){
+            $message[] = "Name already exists";
+        }
+
         //Insert securely new data into database
         if(empty($message)) {
+            echo "Using database: " . $conn->query("SELECT DATABASE()")->fetch_row()[0];
             $stmt = $conn->prepare("INSERT INTO users(name, email, password) VALUES (?, ?, ?)");
-
             if(!$stmt){
                 die("SQL error: ". $conn->error);
             }
-    
+            
             $stmt->bind_param("sss", $name, $email, $hash_pass);
-            if ($stmt->execute()) {
+            if ($stmt->execute()){
                 echo "Registration successful!";
                 header("Location: login.php");
                 exit();
-            }else {
-                echo "Error: " . $stmt->error;
             }
-
-            $stmt->execute();
-            $stmt->store_result();
+            else{
+                echo "Error: " . $conn->error;
+            }
             $stmt->close();
-    
-            header("Location: login.php");
             exit();
         }
     }

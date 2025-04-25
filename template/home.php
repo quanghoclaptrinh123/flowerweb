@@ -55,7 +55,6 @@ if(isset($_POST['add_to_cart'])){
        mysqli_query($conn, "INSERT INTO `cart`(user_id, pid, name, price, quantity, image) VALUES('$user_id', '$product_id', '$product_name', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
        $message[] = 'product added to cart';
    }
-
 }
 
 ?>
@@ -129,21 +128,14 @@ if(isset($_POST['add_to_cart'])){
 </section>
 
 <section class="home-contact">
-
    <div class="content">
       <h3>have any questions?</h3>
       <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio officia aliquam quis saepe? Quia, libero.</p>
       <a href="contact.php" class="btn">contact us</a>
    </div>
-
 </section>
 
-
-
-
 <?php @include 'footer.php'; ?>
-
-<script src="js/script.js"></script>
-
+      
 </body>
 </html>

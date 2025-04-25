@@ -15,22 +15,27 @@
         $pass = $_POST['pass'];
 
         if(filter_var($identifier, FILTER_VALIDATE_EMAIL )){
-            $stmt = $conn->prepare("SELECT password FROM users WHERE email = ? OR name = ?");
+            $stmt = $conn->prepare("SELECT id, name, email, password FROM users WHERE email = ?");
         }
-        if(!$stmt){
+        elseif(filter_var($identifier, FILTER_SANITIZE_STRING)){
+            $stmt = $conn->prepare("SELECT id, name, email, password FROM users WHERE name = ?");
+        }
+        else{
             die("SQL error: ". $conn->error);
         }
-
-        $stmt->bind_param("ss", $identifier, $identifier);
+            
+        $stmt->bind_param("s", $identifier);
         $stmt->execute();
         $stmt->store_result();
 
         if($stmt->num_rows === 1){
-            $stmt->bind_result($hashed_pass);
+            $stmt->bind_result($user_id, $user_name, $user_email, $hashed_pass);
             $stmt->fetch();
 
             if(password_verify($pass, $hashed_pass)){
-                $_SESSION['user'] = $identifier;
+                $_SESSION['user_id'] = $user_id;
+                $_SESSION['user_name'] = $user_name;
+                $_SESSION['user_email'] = $user_email;
                 header("Location: home.php");
                 exit;
             }

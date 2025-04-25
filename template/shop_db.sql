@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `cart` (
-  `id` int(100) NOT NULL,
+  `id` int(100)  NOT NULL,
   `user_id` int(100) NOT NULL,
   `pid` int(100) NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -133,7 +133,7 @@ INSERT INTO `products` (`id`, `name`, `details`, `price`, `image`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(100) NOT NULL,
+  `id` int(200)  NOT NULL AUTO INCREMENT,
   `name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,

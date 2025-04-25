@@ -151,11 +151,6 @@ if(isset($_POST['order'])){
 
 </section>
 
-
-
-
-
-
 <?php @include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
